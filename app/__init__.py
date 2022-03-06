@@ -20,10 +20,10 @@ from flask_sqlalchemy import SQLAlchemy
 # app.config.from_object(DevConfig)
 # app.config.from_pyfile("config.py")
 
-# # Initializing Flask Extensions
-# bootstrap = Bootstrap(app)
+
 
 db=SQLAlchemy()
+
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -37,5 +37,8 @@ def create_app(config_name):
     #reg
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    # Initializing Flask Extensions
+    bootstrap = Bootstrap(app)
 
     return app 
