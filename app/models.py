@@ -12,23 +12,30 @@ from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
+# class User(db.Model):
+#     __tablename__='users'
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.String(80), unique=True, nullable=False)
+#     email = db.Column(db.String(120), unique=True, nullable=False)
+#     password_encrypt=db.Column(db.String(128))
+
+#...
 class User(db.Model):
-    __tablename__='users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_encrypt=db.Column(db.String(128))
+    #...
+    pass_secure = db.Column(db.String(255))
 
     @property
     def password(self):
-        raise AttributeError('You can only read this attribute')
+        raise AttributeError('You cannot read this attribute')
 
     @password.setter
     def password(self, password):
         self.password_encrypt = generate_password_hash(password)
 
-    def check_password(self, password):
+    def verify_password(self, password):
         return check_password_hash(self.password_encrypt, password)
 
     def __repr__(self):
         return f'User{self.username}'
+
+
