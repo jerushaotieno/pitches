@@ -25,7 +25,8 @@ login_manager.login_view = 'auth.login'
 # app.config.from_object(DevConfig)
 # app.config.from_pyfile("config.py")
 
-
+    # Initializing Flask Extensions
+bootstrap = Bootstrap()
 
 db=SQLAlchemy()
 
@@ -50,8 +51,5 @@ def create_app(config_name):
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint,url_prefix = '/authenticate')
-
-    # Initializing Flask Extensions
-    bootstrap = Bootstrap(app)
 
     return app 

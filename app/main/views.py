@@ -16,6 +16,7 @@
 
 from . import main
 from flask import render_template
+from flask_login import login_required
 
 @main.route('/')
 def landing_page():
@@ -26,5 +27,11 @@ def home():
     return render_template('pitches.html')
 
 @main.route('/pitches/<category>')
-def categories(category):
+def categories():
     return render_template('categories.html') 
+
+@main.route('/comments/<int:pitches_id>', methods=['GET','POST'])
+@login_required
+def pitch_comments(pitches_id):
+    comments = pitch_comments.get_comments(pitches_id)
+    return render_template('pitches.html')
