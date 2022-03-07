@@ -10,6 +10,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://moringa:Access@localhost/pitches'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
+
 
 class ProdConfig(Config):
     '''
