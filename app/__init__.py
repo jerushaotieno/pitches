@@ -48,7 +48,7 @@ def create_app(config_name):
     db.init_app(app)
 
     # configure UploadSet
-    configure_uploads(app,photos)
+    # configure_uploads(app)
 
     #reg
     from .main import main as main_blueprint
@@ -59,9 +59,9 @@ def create_app(config_name):
 
     return app 
 
-mail = Mail()
+# mail = Mail()
 
-def create_app(config_name):
-    app = Flask(__name__)
-    #........
-    mail.init_app(app)
+# def create_app(config_name):
+#     app = Flask(__name__)
+#     #........
+#     mail.init_app(app)
