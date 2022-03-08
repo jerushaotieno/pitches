@@ -1,10 +1,11 @@
+# from email.mime import application
 from flask import Flask, app
 from config import DevConfig
 from flask_bootstrap import Bootstrap
 from config import config_options
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-# from flask_uploads import UploadSet,configure_uploads,IMAGES
+from flask_uploads import UploadSet,configure_uploads,IMAGES
 from flask_mail import Mail
 
 login_manager = LoginManager()
@@ -15,10 +16,19 @@ login_manager.login_view = 'auth.login'
 bootstrap = Bootstrap()
 
 db=SQLAlchemy()
+photos = UploadSet('photos',IMAGES)
+UPLOADED_PHOTOS_DEST ='app/static/photos'
 
+app = Flask(__name__)
+
+UPLOAD_FOLDER = 'app/static/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def create_app(config_name):
-    app = Flask(__name__)
+
+    # configure UploadSet
+    # configure_uploads(app,photos)
+    app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
 
     #Initializing Flask Extensions
     bootstrap.init_app(app)
@@ -39,4 +49,3 @@ def create_app(config_name):
     app.register_blueprint(auth_blueprint,url_prefix = '/authenticate')
 
     return app 
-
