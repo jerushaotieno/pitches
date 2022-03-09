@@ -15,11 +15,16 @@ login_manager.login_view = 'auth.login'
     # Initializing Flask Extensions
 bootstrap = Bootstrap()
 
+mail = Mail()
+
 db=SQLAlchemy()
+
 photos = UploadSet('photos',IMAGES)
 UPLOADED_PHOTOS_DEST ='app/static/photos'
 
 app = Flask(__name__)
+
+mail.init_app(app)
 
 UPLOAD_FOLDER = 'app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
