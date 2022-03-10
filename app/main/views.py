@@ -87,7 +87,7 @@ def update_pic(uname):
 
 
 @app.route('/', methods=["GET", "POST"])
-def home():
+def pitches():
     form = PitchesForm()
     if form.validate_on_submit():
         title = form.title.data
@@ -105,7 +105,7 @@ def home():
     return render_template("home.html", form=form, pitches=pitches)
 
 # display pitches in one place
-@main.route('/home/',methods = ['GET','POST'])
+@main.route('/',methods = ['GET','POST'])
 @login_required
 def view():
     pitches= Pitches.query.all()
@@ -113,28 +113,31 @@ def view():
 
 
 
-app.route('/', methods=["GET", "POST"])
-def home():
+@app.route('/comment/', methods=["GET", "POST"])
+@login_required
+
+def comments():
     form = CommentsForm()
     if form.validate_on_submit():
         comment = form.comment.data
+        username = form.username.data
 
         # Updated review instance
-        new_comment = Comments(comment=comment)
+        new_comment = Comments(comment=comment, username=username)
 
         # save review method
         new_comment.save_comments()
-        return redirect(url_for('.home'))
+        return redirect(url_for('main.index'))
     comments= Comments.query.all()
 
-    return render_template("home.html", form=form, comments=comments)
+    return render_template("comment.html", form=form, comments=comments)
 
 # display comments
-@main.route('/home/',methods = ['GET','POST'])
+@main.route('/displaycomment/',methods = ['GET','POST'])
 @login_required
 def views():
     comments= Comments.query.all()
-    return render_template('home.html', comments=comments)
+    return render_template('displaycomment.html', comments=comments)
 
 
 if __name__ == "__main__":
