@@ -30,6 +30,7 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
+    pitches = db.relationship('Pitches',backref = 'user',lazy = "dynamic")
 
     @property
     def password(self):
@@ -50,3 +51,53 @@ class User(UserMixin,db.Model):
         return User.query.get(int(user_id))
 
 
+
+# for pitches
+
+class Pitches(db.Model):
+
+    __tablename__ = 'pitches'
+
+    id = db.Column(db.Integer,primary_key = True)
+    username = db.Column(db.String(255))
+    title = db.Column(db.String(255))
+    category = db.Column(db.String(255))
+    description = db.Column(db.String(255))
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+
+    def save_pitches(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_pitches(cls, id):
+        pitches= Pitches.query.filter_by(id=id).all()
+        return pitches
+
+    def __repr__(self):
+        return f'User{self.username}'
+       
+
+
+# for comments
+
+class Comments(db.Model):
+
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer,primary_key = True)
+    username = db.Column(db.String(255))
+    comment = db.Column(db.String(255))
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+
+    def save_pitches(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_pitches(cls, id):
+        pitches= Pitches.query.filter_by(id=id).all()
+        return pitches
+
+    def __repr__(self):
+        return f'User{self.username}'

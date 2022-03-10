@@ -2,3 +2,12 @@
     text-decoration: none;
     text-align: right;
 }
+
+.row {
+    display: flex;
+    padding: 3%;
+}
+
+.col-md-5{
+    width: 100%;
+}

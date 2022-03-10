@@ -1,16 +1,19 @@
 from app import app
 from app import auth
 from . import main
-from flask import render_template
-from flask_login import login_required
-from flask import render_template,request,redirect,url_for,abort
-from ..models import User
-from .forms import UpdateProfile
+from flask_login import current_user, login_required
+from flask import Flask, render_template,request,redirect,url_for,abort, flash
+from ..models import User, Pitches
+from .forms import UpdateProfile, PitchesForm
 from .. import db, photos
 
 import os
-from flask import Flask, flash, request, redirect, url_for
+
 from werkzeug.utils import secure_filename
+
+from flask_sqlalchemy import SQLAlchemy
+
+
 
 @main.route('/')
 def index():
@@ -58,12 +61,6 @@ def allowed_file(filename):
 @login_required
 def update_pic(uname):
     user = User.query.filter_by(username = uname).first()
-    # if 'photo' in request.files:
-    #     filename = photos.save(request.files['photo'])
-    #     path = f'photos/{filename}'
-    #     user.profile_pic_path = path
-    #     db.session.commit()
-    # return redirect(url_for('main.profile',uname=uname))
     
     if request.method == 'POST':
         # check if the post request has the file part
@@ -85,3 +82,43 @@ def update_pic(uname):
             return redirect(url_for('main.profile',uname=uname))
 
     return 'add upload'        
+
+
+
+
+@app.route('/', methods=["GET", "POST"])
+def home():
+    form = PitchesForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        category = form.category.data
+        description = form.description.data
+
+        # Updated review instance
+        new_pitch = Pitches(title=title,category=category,description=description)
+
+        # save review method
+        new_pitch.save_pitches()
+        return redirect(url_for('.home'))
+    pitches= Pitches.query.all()
+
+    return render_template("home.html", form=form, pitches=pitches)
+
+# display pitches in one place
+@main.route('/home/',methods = ['GET','POST'])
+@login_required
+def view():
+    pitches= Pitches.query.all()
+    return render_template('home.html', pitches=pitches)
+
+
+# display comments
+@main.route('/home/',methods = ['GET','POST'])
+@login_required
+def view():
+    comments= Comments.query.all()
+    return render_template('home.html', comments=comments)
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=True)
