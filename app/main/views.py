@@ -3,8 +3,8 @@ from app import auth
 from . import main
 from flask_login import current_user, login_required
 from flask import Flask, render_template,request,redirect,url_for,abort, flash
-from ..models import User, Pitches
-from .forms import UpdateProfile, PitchesForm
+from ..models import User, Pitches, Comments
+from .forms import UpdateProfile, PitchesForm, CommentsForm
 from .. import db, photos
 
 import os
@@ -112,10 +112,27 @@ def view():
     return render_template('home.html', pitches=pitches)
 
 
+
+app.route('/', methods=["GET", "POST"])
+def home():
+    form = CommentsForm()
+    if form.validate_on_submit():
+        comment = form.comment.data
+
+        # Updated review instance
+        new_comment = Comments(comment=comment)
+
+        # save review method
+        new_comment.save_comments()
+        return redirect(url_for('.home'))
+    comments= Comments.query.all()
+
+    return render_template("home.html", form=form, comments=comments)
+
 # display comments
 @main.route('/home/',methods = ['GET','POST'])
 @login_required
-def view():
+def views():
     comments= Comments.query.all()
     return render_template('home.html', comments=comments)
 

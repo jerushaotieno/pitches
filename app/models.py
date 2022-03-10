@@ -76,7 +76,7 @@ class Pitches(db.Model):
 
     def __repr__(self):
         return f'User{self.username}'
-       
+
 
 
 # for comments
@@ -90,14 +90,14 @@ class Comments(db.Model):
     comment = db.Column(db.String(255))
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
-    def save_pitches(self):
+    def save_comments(self):
         db.session.add(self)
         db.session.commit()
 
     @classmethod
-    def get_pitches(cls, id):
-        pitches= Pitches.query.filter_by(id=id).all()
-        return pitches
+    def get_comments(cls, id):
+        comments= Comments.query.filter_by(id=id).all()
+        return comments
 
     def __repr__(self):
         return f'User{self.username}'

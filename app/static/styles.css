@@ -6,8 +6,9 @@
 .row {
     display: flex;
     padding: 3%;
+    width: 100%;
 }
 
-.col-md-5{
-    width: 100%;
+#pitches{
+    width: 30%;
 }
