@@ -88,6 +88,14 @@ def update_pic(uname):
 
 @app.route('/', methods=["GET", "POST"])
 def pitches():
+    pitches= Pitches.query.all()
+
+    return render_template("home.html", pitches=pitches)
+
+
+
+@main.route('/pitchesform/', methods=["GET", "POST"])
+def pitches():
     form = PitchesForm()
     if form.validate_on_submit():
         title = form.title.data
@@ -99,10 +107,10 @@ def pitches():
 
         # save review method
         new_pitch.save_pitches()
-        return redirect(url_for('.home'))
-    pitches= Pitches.query.all()
+        return redirect(url_for('main.index'))
 
-    return render_template("home.html", form=form, pitches=pitches)
+    return render_template("pitchesform.html", form=form, pitches=pitches)
+
 
 # display pitches in one place
 @main.route('/',methods = ['GET','POST'])
@@ -131,6 +139,9 @@ def comments():
     comments= Comments.query.all()
 
     return render_template("comment.html", form=form, comments=comments)
+
+
+
 
 # display comments
 @main.route('/displaycomment/',methods = ['GET','POST'])

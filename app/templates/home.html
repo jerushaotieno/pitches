@@ -1,4 +1,3 @@
-{% import 'bootstrap/wtf.html' as wtf%}
 
 {% extends 'base.html' %}
 
@@ -9,30 +8,39 @@
 
 <!-- content -->
 {% block content %}
-<p>All Pitches</p>
+<a href="/pitchesform/">Add a Pitch</a>
 
 <div class="row container">
 
     <div class="col-md-5" id="pitches">
-        {% for pitch in pitches %}
-        <div class="">
+            <div class="row center-block">
+                {% for pitch in pitches %}
+                <div class="col-xs-10  pitch">
+                    <p>{{ pitch.description }}</p>
+                    <p>{{ pitch.title }}</p>
+                    <p>{{ pitch.category }}</p>
+                    <a href="/comment/">Add Comment</a>
+                    <a href="/displaycomment/">View Comment</a>
+                </div>
+                {% endfor %}
+            </div>
 
-        </div>
+    
+
+
+</div>
+</div>
+
+{% endblock %} 
+        
+        
+   
+             <!-- <div class="col-md-5" id="pitches">
+        {% for pitch in pitches %}
         <p>{{ pitch.title }}</p>
         <p>{{ pitch.category }}</p>
         <p>{{ pitch.description }}</p>
         {% endfor %}
         <a href="/comment/">Add Comment</a>
         <a href="/displaycomment/">View Comment</a>
-    </div>
-
-    <div class="col-md-5">
-        {{wtf.quick_form(form)}}
-    </div>
-
-
-</div>
-
-
-
-{% endblock %} 
+    </div> -->
