@@ -8,7 +8,7 @@ This is a flask application allowing users to post one minute pitches. Other use
 
 # Live Link
 
-View Site
+View Site: https://pitches1-app.herokuapp.com/
 
 # User Story
 
